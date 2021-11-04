@@ -18,7 +18,6 @@ class App extends Component {
   ...INITIAL_STATE,
   isLoading: false,
   name: "",
-  largeImageURL: "",
   showModal: false,
   error: null,
   };
@@ -33,7 +32,7 @@ class App extends Component {
     }
   }
 
-  onChangeName = name => {
+    onChangeName = name => {
     this.setState({
       name,
       page: 1,
@@ -41,22 +40,23 @@ class App extends Component {
     });
   };
 
-
-
   clickLoadMore = (e) => {
-    e.preventDefault();
-    this.setState((prevState) => {
+    this.setState({ loading: true });
+    this.searchImage()
+    .then((prevState) => {
       return { page: prevState.page + 1 };
-    });
+    })
+    .catch((error) => this.setState({ error: error }))
+        .finally(() => this.setState({ isLoading: false }));
   };
 
-  onClose = () => {
+  modalClose = () => {
     this.setState({ showModal: false });
   };
 
   onClickLargeImage = largeImage => {
     this.setState({ largeImage });
-    this.toggleModal();
+    this.modalClose();
   };
 
   searchImage = () => {
@@ -72,7 +72,7 @@ class App extends Component {
   };
 
   render() {
-const {  images, largeImage, onClose, showModal, isLoading } = this.state;
+const {  images, largeImage, modalClose, showModal, isLoading } = this.state;
     return(
       <div className={style.App}>
         <Searchbar onSubmit={this.onChangeName} />
@@ -80,13 +80,13 @@ const {  images, largeImage, onClose, showModal, isLoading } = this.state;
 
         {images.length >= 12 && <Button onClick={this.clickLoadMore} />}
         {showModal && (
-          <Modal onClose={onClose}>
+          <Modal onClose={modalClose}>
           <img
               src={largeImage.largeImageURL}
               alt={largeImage.tag}
               id={largeImage.id}
             />
-            <button type="button" onClick={this.toggleModal}>
+            <button type="button" onClick={modalClose}>
               Close
             </button>
           </Modal>

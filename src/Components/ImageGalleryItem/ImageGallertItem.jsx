@@ -1,16 +1,16 @@
 import PropTypes from "prop-types";
 import style from "./ImageGalleryItem.module.css";
 
- function ImageGalleryItem({src, openModal }) {
+ function ImageGalleryItem({image, openModal }) {
     return (
      <>
         <img
           onClick={() => {
-          openModal(src);
+          openModal(image);
         }}
-         src={src}
+         src={image.webformatURL}
          className={style.imageGalleryItem__image}
-         alt="images"
+         alt={image.tag}
        />
       
      </>
@@ -18,7 +18,7 @@ import style from "./ImageGalleryItem.module.css";
   };
 
 ImageGalleryItem.propTypes = {
-  src: PropTypes.string.isRequired,
+  image: PropTypes.object,
   openModal: PropTypes.func,
 };
 
