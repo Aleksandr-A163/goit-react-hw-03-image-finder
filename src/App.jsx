@@ -18,7 +18,7 @@ class App extends Component {
   ...INITIAL_STATE,
   isLoading: false,
   name: "",
-  largeImageURL: '',
+  largeImage: '',
   showModal: false,
   error: null,
   };
@@ -53,13 +53,13 @@ class App extends Component {
 
   modalClose = () => {
     this.setState(({ showModal }) => ({
-      showModal: !showModal,
+      showModal: !showModal
     }));
   };
 
-  onClickLargeImage = largeImage => {
+  onClickLargeImage = (imageModal) => {
     
-    this.setState({ largeImage });
+    this.setState(() => ({ largeImage: imageModal }));
     this.modalClose();
   };
 
@@ -76,7 +76,7 @@ class App extends Component {
   };
 
   render() {
-const {  images, showModal, isLoading, largeImageURL, tags} = this.state;
+const {  images, showModal, isLoading, largeImage } = this.state;
     return(
       <div className={style.App}>
         <Searchbar onSubmit={this.onChangeName} />
@@ -85,17 +85,10 @@ const {  images, showModal, isLoading, largeImageURL, tags} = this.state;
 
         {images.length >= 12 && <Button onClick={this.clickLoadMore} />}
         {showModal && (
-          <Modal onClose={this.modalClose}>
-            <img
-              src={largeImageURL}
-              alt={tags}
-            />
-            <button
-              type="button"
-              onClick={this.modalClose}>
-              Close
-            </button>
-          </Modal>
+          <Modal
+            onClose={this.modalClose}
+            imageModal={largeImage.largeImageURL}
+          />
         )}
         
       </div>
