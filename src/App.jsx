@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { ToastContainer, toast } from "react-toastify";
 import { getImages } from "./service/service-api";
 import Button from "./Components/Button/Button";
 import Loader from "./Components/Loader/Loader";
@@ -48,9 +47,7 @@ class App extends Component {
     .then((prevState) => {
       return { page: prevState.page + 1 };
     })
-      .catch((error) => this.setState({
-        error: toast.error("Woops, something went wrong... Try again later."),
-      }))
+    .catch((error) => this.setState({ error: error }))
         .finally(() => this.setState({ isLoading: false }));
   };
 
@@ -92,7 +89,7 @@ const {  images, showModal, isLoading, largeImage } = this.state;
             imageModal={largeImage.largeImageURL}
           />
         )}
-        <ToastContainer />
+
       </div>
     );
   }
