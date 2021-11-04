@@ -3,15 +3,18 @@ import style from "./ImageGallery.module.css";
 import ImageGalleryItem from "../ImageGalleryItem/ImageGallertItem";
 
 
-export default function ImageGallery({ images = [], onOpenModal }) {
+export default function ImageGallery({ images, onOpenModal }) {
   return (
     <>
       {
         images.length !== 0 && <ul className={style.imageGallery}>
           {
-            images.map(image => (
-              <li className={style.imageGalleryItem} key={image.id}>
-                <ImageGalleryItem image={image} openModal={onOpenModal}/>
+            images.map(({ id, webformatURL, largeImageURL }) => (
+              <li className={style.imageGalleryItem} key={id}>
+                <ImageGalleryItem
+                  webformatURL={webformatURL}
+                  largeImageURL={largeImageURL}
+                  openModal={onOpenModal} />
               </li>
             ))}
         </ul>
@@ -21,6 +24,10 @@ export default function ImageGallery({ images = [], onOpenModal }) {
 }
 
 ImageGallery.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.object),
+    images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+    }),
+  ).isRequired,
   onOpenModal: PropTypes.func,
 };

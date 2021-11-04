@@ -15,7 +15,7 @@ static propTypes = {
   
 
 componentDidMount() {
-    window.addEventListener("keydown", this.handleKeyDown);
+  window.addEventListener("keydown", this.handleKeyDown);
 }
 componentWillUnmount() {
     window.removeEventListener("keydown", this.handleKeyDown);
@@ -34,9 +34,11 @@ componentWillUnmount() {
 
     
   render() {
+    const { children } = this.props;
+
     return createPortal(
       <div className={s.overlay} onClick={this.handleBackdropClick}>
-        <div className={s.modal}>{this.props.children}</div>
+        <div className={s.modal}>{children}</div>
       </div>,
       modalRoot,
     );

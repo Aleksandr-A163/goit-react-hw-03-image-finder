@@ -1,21 +1,24 @@
 import PropTypes from "prop-types";
 import style from "./ImageGalleryItem.module.css";
 
- function ImageGalleryItem({image, openModal }) {
+function ImageGalleryItem ({
+  webformatURL,
+  largeImageURL,
+  tags,
+  openModal,
+})  {
     return (
      <>
         <img
-          onClick={() => {
-          openModal(image);
-        }}
-         src={image.webformatURL}
+          onClick={openModal}
+          src={webformatURL}
+          alt={tags}
+          data-source={largeImageURL}
          className={style.imageGalleryItem__image}
-         alt={image.tag}
        />
-      
-     </>
-    );  
-  };
+      </>
+  );
+};
 
 ImageGalleryItem.propTypes = {
   image: PropTypes.object,
