@@ -29,7 +29,7 @@ ImageGalleryItem.propTypes = {
       largeImageURL: PropTypes.string.isRequired,
     }).isRequired
   ).isRequired,
-  onOpenModal: PropTypes.func,
+  onOpenModal: PropTypes.func.isRequired,
 };
 
 export default ImageGalleryItem;

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { getImages } from "./service/service-api";
+import * as API from "./service/service-api";
 import Button from "./Components/Button/Button";
-import Loader from "./Components/Loader/Loader";
+import LoaderSpinner from "./Components/Loader/Loader";
 import ImageGallery from "./Components/ImageGallery/ImageGallery";
 import Searchbar from "./Components/Searchbar/Searchbar";
 import Modal from "./Components/Modal/Modal";
+import { mapper } from "./helpers/mapper";
 import style from "./App.css";
 
 const INITIAL_STATE = {
@@ -27,9 +28,13 @@ class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     const { name } = this.state;
     if (name !== prevState.name) {
-      this.searchImage()
-        .catch((error) => this.setState({ error: error }))
-        .finally(() => this.setState({ isLoading: false }));
+      this.getImages()
+    }
+    if (prevState.page !== this.state.page) {
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: "smooth",
+      });
     }
   }
 
@@ -39,16 +44,6 @@ class App extends Component {
       page: 1,
       images: [],
     });
-  };
-
-  clickLoadMore = (e) => {
-    this.setState({ loading: true });
-    this.searchImage()
-    .then((prevState) => {
-      return { page: prevState.page + 1 };
-    })
-    .catch((error) => this.setState({ error: error }))
-        .finally(() => this.setState({ isLoading: false }));
   };
 
   modalClose = () => {
@@ -62,27 +57,33 @@ class App extends Component {
     this.modalClose();
   };
 
-  searchImage = () => {
+  getImages = () => {
     const { name, page } = this.state;
-    this.setState({ loading: true });
+    this.setState({ isLoading: true });
 
-    return getImages(name, page).then(images => {
+    API.getImages({ name, page })
+      .then(response => {
       this.setState(prevState => ({
-        images: [...prevState.images, ...images],
+        images: [...prevState.images, ...mapper(response)],
         page: prevState.page + 1,
       }));
-    });
+    })
+    .catch((error) => this.setState({ error: error }))
+        .finally(() => this.setState({ isLoading: false }));
   };
 
   render() {
-const {  images, showModal, isLoading, largeImage } = this.state;
+const {  images, showModal, isLoading, largeImage, name } = this.state;
     return(
       <div className={style.App}>
         <Searchbar onSubmit={this.onChangeName} />
-        {isLoading && <Loader />}
-        <ImageGallery images={images} onOpenModal={this.onClickLargeImage} />
-
-        {images.length >= 12 && <Button onClick={this.clickLoadMore} />}
+        {isLoading && <LoaderSpinner />}
+        {images.length !== 0 ? (
+          <ImageGallery images={images} onOpenModal={this.onClickLargeImage} />
+          ) : (
+          name !== '' && <p>No found image</p> 
+        )}
+        {images.length >= 12 && <Button onClick={this.getImages} />}
         {showModal && (
           <Modal
             onClose={this.modalClose}
