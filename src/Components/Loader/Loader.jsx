@@ -5,10 +5,10 @@ import style from "./Loader.module.css";
 const LoaderSpinner = () => (
 	<div className={style.Loader}>
         <Loader
-            type="ThreeDots"
-            color="blue"
-            height={100}
-            width={100}
+            type="Puff"
+            color="#00BFFF"
+            height={80}
+            width={80}
             timeout={10000} />
 	</div>
 );
