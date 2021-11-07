@@ -31,6 +31,7 @@ class App extends Component {
       this.getImages()
     }
     if (prevState.page !== this.state.page) {
+      this.getImages()
       window.scrollTo({
         top: document.documentElement.scrollHeight,
         behavior: "smooth",
@@ -44,6 +45,13 @@ class App extends Component {
       page: 1,
       images: [],
     });
+    };
+  
+  clickLoadMore = (e) => {
+     e.preventDefault();
+    this.setState((prevState) => {
+      return { page: prevState.page + 1 };
+    })
   };
 
   modalClose = () => {
@@ -83,7 +91,7 @@ const {  images, showModal, isLoading, largeImage, name } = this.state;
           ) : (
           name !== '' && <p>No found image</p> 
         )}
-        {images.length >= 12 && <Button onClick={this.getImages} />}
+        {images.length >= 12 && <Button onClick={this.clickLoadMore} />}
         {showModal && (
           <Modal
             onClose={this.modalClose}

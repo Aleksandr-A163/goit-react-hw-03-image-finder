@@ -1,14 +1,14 @@
 import PropTypes from "prop-types";
 import style from "./ImageGalleryItem.module.css";
 
-function ImageGalleryItem({
-  images,
+const ImageGalleryItem = ({
+  webformatURL,
+  largeImageURL,
   onOpenModal,
-})  {
+}) => {
     return (
      <>
-      {images.map(({ id, webformatURL, largeImageURL }) => (
-        <li className={style.imageGalleryItem} key={id}>
+        <li className={style.imageGalleryItem}>
           <img
             src={webformatURL}
             alt=""
@@ -16,19 +16,13 @@ function ImageGalleryItem({
             onClick={() => onOpenModal({ largeImageURL })}
           />
         </li>
-      ))}
     </>
   );
 };
 
 ImageGalleryItem.propTypes = {
-  images: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      webformatURL: PropTypes.string.isRequired,
-      largeImageURL: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
+  webformatURL: PropTypes.string.isRequired,
+  largeImageURL: PropTypes.string.isRequired,
   onOpenModal: PropTypes.func.isRequired,
 };
 
