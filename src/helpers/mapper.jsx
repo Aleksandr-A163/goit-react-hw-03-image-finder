@@ -5,3 +5,4 @@ export const mapper = (images) => {
     webformatURL,
 	}));
 };
+

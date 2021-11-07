@@ -8,17 +8,15 @@ import Modal from "./Components/Modal/Modal";
 import { mapper } from "./helpers/mapper";
 import style from "./App.css";
 
-const INITIAL_STATE = {
-  page: 1,
-  images: []
-}
+
 
 class App extends Component {
 
   state = {
-  ...INITIAL_STATE,
+  page: 1,
+  images: [],
+  searchQuery: '',
   isLoading: false,
-  name: "",
   largeImage: '',
   showModal: false,
   error: null,
@@ -26,8 +24,8 @@ class App extends Component {
  
 
   componentDidUpdate(prevProps, prevState) {
-    const { name } = this.state;
-    if (name !== prevState.name) {
+    const { searchQuery } = this.state;
+    if (searchQuery !== prevState.searchQuery) {
       this.getImages()
     }
     if (prevState.page !== this.state.page) {
@@ -39,9 +37,9 @@ class App extends Component {
     }
   }
 
-    onChangeName = name => {
+    onChangeName = (searchQuery) => {
     this.setState({
-      name,
+      searchQuery,
       page: 1,
       images: [],
     });
@@ -66,14 +64,13 @@ class App extends Component {
   };
 
   getImages = () => {
-    const { name, page } = this.state;
+    const { searchQuery, page } = this.state;
     this.setState({ isLoading: true });
 
-    API.getImages({ name, page })
+    API.getImages({ searchQuery, page })
       .then(response => {
       this.setState(prevState => ({
         images: [...prevState.images, ...mapper(response)],
-        page: prevState.page + 1,
       }));
     })
     .catch((error) => this.setState({ error: error }))
@@ -81,7 +78,7 @@ class App extends Component {
   };
 
   render() {
-const {  images, showModal, isLoading, largeImage, name } = this.state;
+const {  images, showModal, isLoading, largeImage, searchQuery } = this.state;
     return(
       <div className={style.App}>
         <Searchbar onSubmit={this.onChangeName} />
@@ -89,7 +86,7 @@ const {  images, showModal, isLoading, largeImage, name } = this.state;
         {images.length !== 0 ? (
           <ImageGallery images={images} onOpenModal={this.onClickLargeImage} />
           ) : (
-          name !== '' && <p>No found image</p> 
+          searchQuery !== '' && <p>No found image</p> 
         )}
         {images.length >= 12 && <Button onClick={this.clickLoadMore} />}
         {showModal && (
