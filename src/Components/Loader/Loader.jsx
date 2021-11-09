@@ -9,7 +9,7 @@ const LoaderSpinner = () => (
             color="#00BFFF"
             height={80}
             width={80}
-            timeout={10000} />
+            timeout={100000} />
 	</div>
 );
 

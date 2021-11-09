@@ -7,7 +7,7 @@ const ImageGalleryItem = ({
   onOpenModal,
 }) => {
     return (
-     <>
+
         <li className={style.imageGalleryItem}>
           <img
             src={webformatURL}
@@ -16,12 +16,11 @@ const ImageGalleryItem = ({
             onClick={() => onOpenModal({ largeImageURL })}
           />
         </li>
-    </>
   );
 };
 
 ImageGalleryItem.propTypes = {
-  webformatURL: PropTypes.string.isRequired,
+  webformatURL: PropTypes.string,
   largeImageURL: PropTypes.string.isRequired,
   onOpenModal: PropTypes.func.isRequired,
 };

@@ -1,7 +1,7 @@
 .Loader {
   opacity: 1;
-  position: absolute;
-  top: 40%;
+  position: fixed;
+  top: 20%;
   left: 50%;
   margin-left: -40px;
   height: 100%;

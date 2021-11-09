@@ -23,13 +23,11 @@ class App extends Component {
   };
  
 
-  componentDidUpdate(prevProps, prevState) {
-    const { searchQuery } = this.state;
-    if (searchQuery !== prevState.searchQuery) {
+  componentDidUpdate(prevProps, { searchQuery, page }) {
+    if (searchQuery !== this.state.searchQuery || page !== this.state.page) {
       this.getImages()
     }
-    if (prevState.page !== this.state.page) {
-      this.getImages()
+    if (this.state.page > 1) {
       window.scrollTo({
         top: document.documentElement.scrollHeight,
         behavior: "smooth",
@@ -88,7 +86,7 @@ const {  images, showModal, isLoading, largeImage, searchQuery } = this.state;
           ) : (
           searchQuery !== '' && <p>No found image</p> 
         )}
-        {images.length >= 12 && <Button onClick={this.clickLoadMore} />}
+        <Button onClick={this.clickLoadMore} />
         {showModal && (
           <Modal
             onClose={this.modalClose}
