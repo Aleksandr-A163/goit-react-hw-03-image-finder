@@ -1,9 +1,8 @@
 .Loader {
-  opacity: 1;
-  position: fixed;
-  top: 20%;
-  left: 50%;
-  margin-left: -40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
   height: 100%;
   margin-bottom: 15px;
 }

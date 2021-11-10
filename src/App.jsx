@@ -80,13 +80,14 @@ const {  images, showModal, isLoading, largeImage, searchQuery } = this.state;
     return(
       <div className={style.App}>
         <Searchbar onSubmit={this.onChangeName} />
-        {isLoading && <LoaderSpinner />}
+        
         {images.length !== 0 ? (
           <ImageGallery images={images} onOpenModal={this.onClickLargeImage} />
           ) : (
           searchQuery !== '' && <p>No found image</p> 
         )}
-        <Button onClick={this.clickLoadMore} />
+        {isLoading && <LoaderSpinner />}
+        {images.length >= 12 && <Button onClick={this.clickLoadMore} />}
         {showModal && (
           <Modal
             onClose={this.modalClose}
